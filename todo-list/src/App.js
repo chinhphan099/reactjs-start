@@ -3,7 +3,11 @@ import './App.css';
 import TodoItem from './components/TodoItem/TodoItem';
 import MainMenu from './components/MainMenu/MainMenu';
 import TableRow from './components/TableRow/TableRow';
+import TrafficLight from './components/TrafficLight/TrafficLight';
 
+const RED = 0,
+    ORANGE = 1,
+    GREEN = 2;
 class App extends Component {
     constructor() {
         super();
@@ -25,21 +29,46 @@ class App extends Component {
                 {company: 'Company 2', contact: 'Contact 2', country: 'Country 2'}
             ]
         };
+
+        this.state = {
+            currentColor: RED
+        };
+
+        setInterval(() => {
+            this.setState({
+                currentColor: this.getNextColor(this.state.currentColor)
+            });
+        }, 400);
+    }
+
+    getNextColor(color) {
+        switch(color) {
+            case RED:
+                return ORANGE;
+            case ORANGE:
+                return GREEN;
+            default:
+                return RED;
+        }
     }
 
     render() {
+        const {currentColor} = this.state;
         return (
             <div className="App">
+                <TrafficLight currentColor={currentColor} />
                 {
                     this.mainMenu.map((item, index) => 
                         <MainMenu key={index} item={item} />
                     )
                 }
                 {
-                    this.todoItems.map((item, index) => 
+                    this.todoItems.length > 0 && this.todoItems.map((item, index) => 
                         <TodoItem key={index} item={item} />
                     )
                 }
+                {this.todoItems.length === 0 && 'Nothing here'}
+
                 <table>
                     <thead>
                         <tr>
