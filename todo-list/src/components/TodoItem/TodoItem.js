@@ -4,13 +4,11 @@ import classNames from 'classnames';
 
 class TodoItem extends Component {
     render() {
-        const {item} = this.props;
-        const className = classNames({
-            'TodoItem': true,
-            'TodoItem-complete': item.isComplete
-        });
+        const {item, onClick} = this.props;
         return (
-            <div className={className}>
+            <div onClick={onClick} className={classNames('TodoItem', {
+                    'TodoItem-complete': item.isComplete}
+                )}>
                 <p>{item.title}</p>
             </div>
         );

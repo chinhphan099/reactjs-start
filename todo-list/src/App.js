@@ -11,10 +11,6 @@ const RED = 0,
 class App extends Component {
     constructor() {
         super();
-        this.todoItems = [
-            {title: 'Học bài', isComplete: true},
-            {title: 'Đi ngủ'}
-        ];
 
         this.mainMenu = [
             {iconCls: 'icon-1', title: 'Home', isActive: true},
@@ -31,14 +27,18 @@ class App extends Component {
         };
 
         this.state = {
-            currentColor: RED
+            currentColor: RED,
+            todoItems: [
+                {title: 'Học bài', isComplete: true},
+                {title: 'Đi ngủ'}
+            ]
         };
 
         setInterval(() => {
             this.setState({
                 currentColor: this.getNextColor(this.state.currentColor)
             });
-        }, 400);
+        }, 2000);
     }
 
     getNextColor(color) {
@@ -52,6 +52,10 @@ class App extends Component {
         }
     }
 
+    onItemClick(index) {
+        this.state.todoItems[index].isComplete = !this.state.todoItems[index].isComplete;
+    }
+
     render() {
         const {currentColor} = this.state;
         return (
@@ -63,11 +67,11 @@ class App extends Component {
                     )
                 }
                 {
-                    this.todoItems.length > 0 && this.todoItems.map((item, index) => 
-                        <TodoItem key={index} item={item} />
+                    this.state.todoItems.length > 0 && this.state.todoItems.map((item, index) => 
+                        <TodoItem key={index} item={item} onClick={() => this.onItemClick(index)} />
                     )
                 }
-                {this.todoItems.length === 0 && 'Nothing here'}
+                {this.state.todoItems.length === 0 && 'Nothing here'}
 
                 <table>
                     <thead>
