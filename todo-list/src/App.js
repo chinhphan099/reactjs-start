@@ -5,9 +5,7 @@ import MainMenu from './components/MainMenu/MainMenu';
 import TableRow from './components/TableRow/TableRow';
 import TrafficLight from './components/TrafficLight/TrafficLight';
 
-const RED = 0,
-    ORANGE = 1,
-    GREEN = 2;
+const RED = 0, ORANGE = 1, GREEN = 2;
 class App extends Component {
     constructor() {
         super();
@@ -28,11 +26,16 @@ class App extends Component {
 
         this.state = {
             currentColor: RED,
+            newItem: '',
+            currentFilter: 'all', // All, active, complete - Chua lam
             todoItems: [
                 { title: 'Học bài', isComplete: true },
                 { title: 'Đi ngủ' }
             ]
         };
+
+        this.onKeyUp = this.onKeyUp.bind(this);
+        this.onChange = this.onChange.bind(this);
 
         setInterval(() => {
             this.setState({
@@ -56,7 +59,7 @@ class App extends Component {
         // this.state.todoItems[index].isComplete = !this.state.todoItems[index].isComplete;
         return () => {
             const isComplete = item.isComplete;
-            const {todoItems} = this.state;
+            const { todoItems } = this.state;
             const index = this.state.todoItems.indexOf(item);
             this.setState({
                 todoItems: [
@@ -71,44 +74,86 @@ class App extends Component {
         };
     }
 
-    render() {
-        const { currentColor } = this.state;
-        return (
-            <div className = "App">
-                <TrafficLight currentColor={currentColor}/>
-                {
-                    this.mainMenu.map((item, index) =>
-                        <MainMenu key = { index } item = { item } />
-                    )
-                }
-                {
-                    this.state.todoItems.length > 0 && this.state.todoItems.map((item, index) =>
-                        <TodoItem key={index} item={item} onClick={this.onItemClick(item)} />
-                    )
-                }
-                { this.state.todoItems.length === 0 && 'Nothing here' }
+    onKeyUp(event) {
+        const text = event.target.value;
+        if(!text.trim()) {
+            return;
+        }
 
-                <table>
-                    <thead>
-                        <tr>
-                            {
-                                this.table.heading.map((item, index) =>
-                                    <th key={index}> { item } </th>
-                                )
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
+        if(event.keyCode !== 13) {
+            this.setState({
+                newItem: text
+            });
+            return;
+        }
+
+        this.setState({
+            newItem: '',
+            todoItems: [
+                {title: text, isComplete: false},
+                ...this.state.todoItems
+            ]
+        });
+    }
+
+    onChange(event) {
+        this.setState({
+            newItem: event.target.value
+        });
+    }
+
+    render() {
+        const { currentColor, newItem, todoItems } = this.state;
+        // Filter All, Active, Complete todoItems then return
+        //....
+
+
+        return (
+            <div className="App">
+            <TrafficLight currentColor={currentColor} />
+            {
+                this.mainMenu.map((item, index) =>
+                    <MainMenu key={index} item={item} />
+                )
+            } 
+            <div className="header">
+            <span> Check All </span>
+            <input type="text" placeholder="add new item" value={newItem}
+                onKeyUp={this.onKeyUp}
+                onChange={this.onChange}
+            />
+            </div>
+            {
+                todoItems.length > 0 && todoItems.map((item, index) =>
+                    <TodoItem key={index}
+                    item = { item }
+                    onClick = { this.onItemClick(item) }
+                    />
+                )
+            }
+            { this.state.todoItems.length === 0 && 'Nothing here' }
+
+            <table>
+                <thead>
+                    <tr>
                         {
-                            this.table.body.map((item, index) =>
-                                <
-                                TableRow item = { item }
-                                key = { index }
-                                />
-                            )
-                        }
-                    </tbody>
-                </table>
+                        this.table.heading.map((item, index) =>
+                            <th key={index}>{item}</th>
+                        )
+                    }
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        this.table.body.map((item, index) =>
+                            <
+                            TableRow item = { item }
+                            key = { index }
+                            />
+                        )
+                    }
+                </tbody>
+            </table>
             </div>
         );
     }
