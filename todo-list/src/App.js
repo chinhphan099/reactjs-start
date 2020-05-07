@@ -30,7 +30,7 @@ class App extends Component {
             currentFilter: 'all', // All, active, complete - Chua lam
             todoItems: [
                 { title: 'Học bài', isComplete: true },
-                { title: 'Đi ngủ' }
+                { title: 'Đi ngủ', isComplete: false }
             ]
         };
 
@@ -125,7 +125,7 @@ class App extends Component {
             </div>
             {
                 todoItems.length > 0 && todoItems.map((item, index) =>
-                    <TodoItem key={index}
+                    <TodoItem key = { index }
                     item = { item }
                     onClick = { this.onItemClick(item) }
                     />
