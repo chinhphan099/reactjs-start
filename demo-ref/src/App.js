@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 class App extends Component {
   constructor(props) {
@@ -7,14 +7,20 @@ class App extends Component {
     this.inputElement = React.createRef();
   }
 
+  componentWillMount() {
+    console.log('componentWillMount');
+  }
+
   componentDidMount() {
+    console.log('componentDidMount');
     this.inputElement.current.focus();
   }
 
   render() {
+    console.log('render');
     return (
       <div className="App">
-        <input type="input" ref={this.inputElement} />
+        <input type = "input" ref={this.inputElement} />
       </div>
     )
   }
