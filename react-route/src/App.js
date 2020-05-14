@@ -1,23 +1,18 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
 import Index from './components/Index';
-import About from './components/About';
+import Product from './pages/Products';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import TopMenu from './components/TopMenu';
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <ul>
-          <li>
-            <Link to="/">Index</Link>
-          </li>
-          <li>
-            <Link to="/about/">About</Link>
-          </li>
-        </ul>
+        <TopMenu />
         <Route path="/" exact component={Index} />
-        <Route path="/about/" exact component={About} />
+        <Route path="/products/" exact component={Product} />
       </div>
     </Router>
   );
