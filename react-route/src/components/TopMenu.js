@@ -24,10 +24,10 @@ const TopMenu = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <Link href="/">Home</Link>
+              <Link to="/">Home</Link>
             </NavItem>
             <NavItem>
-              <Link href="/products/">Product</Link>
+              <Link to="/products/">Product</Link>
             </NavItem>
             <NavItem>
               <CartContext.Consumer>

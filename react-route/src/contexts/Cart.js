@@ -14,8 +14,10 @@ export class CartProvider extends Component {
   }
 
   addToCart(product) {
-    this.setState({
-      cartItems: this.state.cartItems.concat(product)
+    this.setState(state => {
+      return {
+        cartItems: state.cartItems.concat(product)
+      }
     }, () => {
       // Run after setState done
       localStorage.setItem('cart', JSON.stringify(this.state.cartItems));
