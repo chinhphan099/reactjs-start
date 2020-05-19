@@ -6,9 +6,10 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   NavbarText
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { CartContext } from '../contexts/Cart';
 
 const TopMenu = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,10 +24,17 @@ const TopMenu = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink href="/">Home</NavLink>
+              <Link href="/">Home</Link>
             </NavItem>
             <NavItem>
-              <NavLink href="/products/">Product</NavLink>
+              <Link href="/products/">Product</Link>
+            </NavItem>
+            <NavItem>
+              <CartContext.Consumer>
+                {({cartItems}) => (
+                  <Link to="/cart/">Cart ({cartItems.length})</Link>
+                )}
+              </CartContext.Consumer>
             </NavItem>
           </Nav>
           <NavbarText>Simple Text</NavbarText>
